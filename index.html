@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <title>TODO LIST JS</title>
+  </head>
+  <body>
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </head>
+      <body class="bg-black">
+        <main class="">
+          <div class="header flex m-auto justify-center p-5 mt-5">
+            <div
+              class="flex w-10/12 justify-center rounded-xl p-2 bg-neutral-900"
+            >
+              <h1 class="text-6xl max-sm:text-4xl text-white">TODO LIST APP</h1>
+            </div>
+          </div>
+          <div class="add-container flex m-auto justify-center p-5 pb-2">
+            <div
+              class="add-content flex w-10/12 min-h-32 items-center rounded-xl p-10 bg-neutral-900 gap-10 max-md:flex-col max-md:gap-5"
+            >
+              <input
+                class="appearance-none block w-full bg-gray-800 text-gray-700 borde rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 js-input-task"
+                type="text"
+                placeholder="Insert a new task"
+              /><button
+                class="button-add bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 border-b-4 border-purple-700 hover:border-purple-900 rounded min-w-32 max-md:w-full js-add"
+              >
+                <!-- -->ADD<!-- -->
+              </button>
+            </div>
+          </div>
+          <div class="body-app flex m-auto justify-center p-5 pt-0">
+            <div
+              class="body-content flex-col w-10/12 justify-center min-h-dvh rounded-xl p-2 bg-neutral-900"
+            >
+              <div class="filter-tab flex w-full h-32 p-7 items-center">
+                <hr
+                  class="border-solid border-1 border-purple-500 m-14 ml-0 w-full max-md:hidden"
+                />
+                <div class="drop-menu-button relative max-md:w-full">
+                  <button
+                    class="button-filter flex gap-2 min-w-32 bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 border-b-4 border-purple-700 hover:border-purple-900 rounded max-md:justify-center max-md:w-full max-md:mt-10"
+                  >
+                    <!-- -->
+                    Filter by
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-6 h-6"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="m19.5 8.25-7.5 7.5-7.5-7.5"
+                      ></path>
+                    </svg>
+                  </button>
+                  <div
+                    class="drop-menu flex invisible bg-purple-500 text-white font-bold border-b-4 border-purple-700 hover:border-purple-900 rounded gap-2 min-w-32 justify-center text-center max-md:justify-center max-md:relative absolute"
+                  >
+                    <div class="drop-menu-items flex-col">
+                      <div class="hover:bg-purple-600 px-15">
+                        <a class="" href="#">All</a>
+                      </div>
+                      <div class="hover:bg-purple-600 px-15">
+                        <a class="" href="#">Open</a>
+                      </div>
+                      <div class="hover:bg-purple-600 px-15">
+                        <a class="" href="#">In Progress</a>
+                      </div>
+                      <div class="hover:bg-purple-600 px-10">
+                        <a class="" href="#">Done</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="task-tab w-full h-auto border-t-2 p-7">
+                <table class="table-auto flex-row w-full text-left">
+                  <thead>
+                    <tr class="text-white bg-gray-900">
+                      <th>Date Added</th>
+                      <th>Task Description</th>
+                      <th class="w-10">Status</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody class="js-tablelist"></tbody>
+                </table>
+                <div
+                  class="no-task w-full h-auto border-t-2 p-7 text-center text-red-800 text-2xl"
+                >
+                  NO TASK ADDED
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </body>
+    </html>
+    <script src="script.js"></script>
+  </body>
+</html>
