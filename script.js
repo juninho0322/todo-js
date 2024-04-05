@@ -29,9 +29,29 @@ alt="bin"
 class="bin max-w-10 p-2"
 />`;
 
+const editImg = ` <img
+src="img/edit_icon.svg"
+alt="bin"
+class="bin max-w-10 p-2"
+/>`;
+
 function addItem(descr, date = new Date(), status = "Open") {
+  // Get the day, month, and year
+  const day = date.getDate();
+  const month = date.getMonth() + 1; // Month is zero-based, so we add 1
+  const year = date.getFullYear();
+
+  // Pad single-digit day and month with leading zeros if necessary
+  const formattedDay = day < 10 ? `0${day}` : day;
+  const formattedMonth = month < 10 ? `0${month}` : month;
+
+  // Format the date as "dd/mm/yy"
+  const formattedDate = `${formattedDay}/${formattedMonth}/${year
+    .toString()
+    .slice(-2)}`;
+
   const newItem = {
-    date: date.toDateString(),
+    date: formattedDate,
     descr: descr,
     status: status,
   };
@@ -47,12 +67,15 @@ function filterByStatus(filter) {
 }
 
 function removeItem(index) {
-  items.splice(index, 1);
+  if (confirm(`do you wanna delete the task ${items[index].descr}?`)) {
+    items.splice(index, 1);
+  }
+
   renderList(items);
 }
 
 function changeStatus(index, value) {
-  if (confirm(`Change the current status to ${value} ?`)) {
+  if (confirm(`Change the task ${items[index].descr} to status ${value} ?`)) {
     items[index].status = value;
     return;
   }
@@ -74,15 +97,18 @@ function renderList(items) {
 
     // make the rows bg-gray-500 or 300
     result += `<tr class="bg-gray-${i % 2 === 0 ? 500 : 400}" data-index="${i}">
-        <td>${currentItem.date}</td>
-        <td>${currentItem.descr}</td>
+        <td class="inline w-1/5 hidden sm:table-cell">${currentItem.date}</td>
+        <td >${currentItem.descr}</td>
         <td><select name="status" class="bg-transparent" onchange="changeStatus(${i}, value);" >
-        <option value=${statusValues[0]}>Open</option>
-        <option value=${statusValues[1]}>In Progress</option>
-        <option value=${statusValues[2]}>Done</option>
-    </select></td>
-    <td class="flex justify-center"><button class="buttonDel" onclick="removeItem(${i});">${binImg}</button></td>
-     </tr>`;
+          <option value=${statusValues[0]}>Open</option>
+          <option value=${statusValues[1]}>In Progress</option>
+          <option value=${statusValues[2]}>Done</option>
+      </select></td>
+          <td class="gap-1 max-w-10 text-center">
+          <button class="buttonEdit" onclick="editItem(${i});">${editImg}</button>
+          <button class="buttonDel" onclick="removeItem(${i});">${binImg}</button>
+          </td>
+    </tr>`;
   }
 
   $tableList.innerHTML = result;
