@@ -16,16 +16,18 @@
       </head>
       <body class="bg-black">
         <main class="">
-          <div class="header flex m-auto justify-center p-5 mt-5">
+          <div class="header flex m-auto justify-center p-5 mt-5 max-sm:p-2">
             <div
-              class="flex w-10/12 justify-center rounded-xl p-2 bg-neutral-900"
+              class="flex w-10/12 justify-center rounded-xl p-2 bg-neutral-900 max-sm:w-full"
             >
               <h1 class="text-6xl max-sm:text-4xl text-white">TODO LIST APP</h1>
             </div>
           </div>
-          <div class="add-container flex m-auto justify-center p-5 pb-2">
+          <div
+            class="add-container flex m-auto justify-center p-5 pb-2 max-sm:p-2"
+          >
             <div
-              class="add-content flex w-10/12 min-h-32 items-center rounded-xl p-10 bg-neutral-900 gap-10 max-md:flex-col max-md:gap-5"
+              class="add-content flex w-10/12 min-h-32 items-center rounded-xl p-10 bg-neutral-900 gap-10 max-md:flex-col max-md:gap-5 max-sm:w-full"
             >
               <input
                 class="appearance-none block w-full bg-gray-800 text-gray-700 borde rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 js-input-task"
@@ -38,9 +40,9 @@
               </button>
             </div>
           </div>
-          <div class="body-app flex m-auto justify-center p-5 pt-0">
+          <div class="body-app flex m-auto justify-center p-5 pt-0 max-sm:p-2">
             <div
-              class="body-content flex-col w-10/12 justify-center min-h-dvh rounded-xl p-2 bg-neutral-900"
+              class="body-content flex-col w-10/12 justify-center min-h-dvh rounded-xl p-2 bg-neutral-900 max-sm:w-full"
             >
               <div class="filter-tab flex w-full h-32 p-7 items-center">
                 <hr
@@ -95,7 +97,7 @@
                       <th class="inline w-1/5 hidden sm:table-cell">Date</th>
                       <th class="ml-5 w-2/5">Task</th>
                       <th class="w-1/5">Status</th>
-                      <th class="w-1/5"></th>
+                      <th class="w-1/5 max-sm:inline"></th>
                     </tr>
                   </thead>
                   <tbody class="js-tablelist"></tbody>
