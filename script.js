@@ -98,7 +98,7 @@ function renderList(items) {
     // make the rows bg-gray-500 or 300
     result += `<tr class="bg-gray-${i % 2 === 0 ? 500 : 400}" data-index="${i}">
         <td class="inline w-1/5 hidden sm:table-cell">${currentItem.date}</td>
-        <td >${currentItem.descr}</td>
+        <td class="max-sm:pl-2">${currentItem.descr}</td>
         <td><select name="status" class="bg-transparent" onchange="changeStatus(${i}, value);" >
           <option value=${statusValues[0]}>Open</option>
           <option value=${statusValues[1]}>In Progress</option>
