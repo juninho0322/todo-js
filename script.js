@@ -19,7 +19,10 @@ $buttonAdd.addEventListener("click", function () {
   }
 });
 
-const items = [];
+const storagedItems = window.localStorage.getItem("Todo-List");
+const items = !storagedItems
+  ? []
+  : JSON.parse(window.localStorage.getItem("Todo-List"));
 
 const statusValues = ["Open", "InProgress", "Done"];
 
@@ -35,7 +38,7 @@ alt="bin"
 class="bin max-w-10 p-2"
 />`;
 
-function addItem(descr, date = new Date(), status = "Open") {
+function addItem(descr, date = new Date()) {
   // Get the day, month, and year
   const day = date.getDate();
   const month = date.getMonth() + 1; // Month is zero-based, so we add 1
@@ -53,7 +56,7 @@ function addItem(descr, date = new Date(), status = "Open") {
   const newItem = {
     date: formattedDate,
     descr: descr,
-    status: status,
+    status: statusValues[0],
   };
 
   items.push(newItem);
@@ -62,8 +65,13 @@ function addItem(descr, date = new Date(), status = "Open") {
 }
 
 function filterByStatus(filter) {
+  if (filter === "All") {
+    renderList(items);
+    return;
+  }
+  // rewrite the filter using forEach
   const filtered = items.filter((currentItem) => currentItem.status === filter);
-  renderList(filter);
+  renderList(filtered);
 }
 
 function removeItem(index) {
@@ -77,7 +85,6 @@ function removeItem(index) {
 function changeStatus(index, value) {
   if (confirm(`Change the task ${items[index].descr} to status ${value} ?`)) {
     items[index].status = value;
-    return;
   }
   renderList(items);
 }
@@ -90,29 +97,65 @@ function renderList(items) {
     $noTask.classList.add("hidden");
   }
 
+  window.localStorage.setItem("Todo-List", JSON.stringify(items));
+
   let result = "";
 
   for (let i = 0; i < items.length; i++) {
     const currentItem = items[i];
-
+    console.log(currentItem);
     // make the rows bg-gray-500 or 300
-    result += `<tr class="bg-gray-${i % 2 === 0 ? 500 : 400}" data-index="${i}">
-        <td class="inline w-1/5 hidden sm:table-cell">${currentItem.date}</td>
-        <td class="max-sm:pl-2">${currentItem.descr}</td>
-        <td><select name="status" class="bg-transparent" onchange="changeStatus(${i}, value);" >
-          <option value=${statusValues[0]}>Open</option>
-          <option value=${statusValues[1]}>In Progress</option>
-          <option value=${statusValues[2]}>Done</option>
-      </select></td>
-          <td class="gap-1 max-w-10 text-center">
-          <button class="buttonEdit" onclick="editItem(${i});">${editImg}</button>
-          <button class="buttonDel" onclick="removeItem(${i});">${binImg}</button>
-          </td>
-    </tr>`;
+    result += getTemplate(
+      currentItem.date,
+      currentItem.descr,
+      currentItem.status,
+      i
+    );
   }
 
   $tableList.innerHTML = result;
   $inputTask.value = "";
+}
+
+function getTemplate(date, descr, status, index) {
+  console.log(status);
+  const optionOpen =
+    status === statusValues[0]
+      ? `<option value="${statusValues[0]}" selected>
+      Open
+    </option>`
+      : `<option value=${statusValues[0]}>Open</option>`;
+
+  const optionInProgress =
+    status === statusValues[1]
+      ? `<option value="${statusValues[1]}" selected>
+      In Progress
+    </option>`
+      : `<option value=${statusValues[1]}>In Progress</option>`;
+
+  const optionDone =
+    status === statusValues[2]
+      ? `<option value="${statusValues[2]}" selected>
+      Done
+    </option>`
+      : `<option value=${statusValues[2]}>Done</option>`;
+
+  return `<tr class="bg-gray-${
+    index % 2 === 0 ? 500 : 400
+  }" data-index="${index}">
+       <td class="inline w-1/5 hidden sm:table-cell">${date}</td>
+       <td class="max-sm:pl-2">${descr}</td>
+       <td><select name="status" value="${status}" class="bg-transparent" onchange="changeStatus(${index}, value);" >
+         ${optionOpen}
+         ${optionInProgress}
+         ${optionDone}
+         
+     </select></td>
+         <td class="gap-1 max-w-10 text-center">
+         <button class="buttonEdit" onclick="editItem(${index});">${editImg}</button>
+         <button class="buttonDel" onclick="removeItem(${index});">${binImg}</button>
+         </td>
+   </tr>`;
 }
 
 renderList(items);
