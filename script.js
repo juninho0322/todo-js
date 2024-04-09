@@ -5,10 +5,21 @@ const $inputTask = document.querySelector(".js-input-task");
 const $tableList = document.querySelector(".js-tablelist");
 const $noTask = document.querySelector(".no-task");
 
-$buttonFilter.addEventListener("click", function () {
-  $dropDownMenu.classList.toggle("visible");
-  $dropDownMenu.classList.toggle("invisible");
-});
+let dropDownMenuVisible = false;
+
+function toggleMenuFilter() {
+  if (dropDownMenuVisible) {
+    $dropDownMenu.classList.add("invisible");
+    $dropDownMenu.classList.remove("visible");
+  } else {
+    $dropDownMenu.classList.add("visible");
+    $dropDownMenu.classList.remove("invisible");
+  }
+
+  dropDownMenuVisible = !dropDownMenuVisible;
+}
+
+$buttonFilter.addEventListener("click", toggleMenuFilter);
 
 $buttonAdd.addEventListener("click", function () {
   const descr = $inputTask.value;
@@ -66,32 +77,51 @@ function addItem(descr, date = new Date()) {
 
 function filterByStatus(filter) {
   if (filter === "All") {
+    toggleMenuFilter();
     renderList(items);
     return;
   }
   // rewrite the filter using forEach
   const filtered = items.filter((currentItem) => currentItem.status === filter);
+  toggleMenuFilter();
   renderList(filtered);
 }
 
 function removeItem(index) {
-  if (confirm(`do you wanna delete the task ${items[index].descr}?`)) {
+  if (confirm(`Delete the task ${items[index].descr}?`)) {
     items.splice(index, 1);
+  }
+  if (items.length === 0) {
+    $noTask.classList.remove("hidden");
   }
 
   renderList(items);
+}
+
+function editItem(index) {
+  const newDescr = prompt(`add new description to ${items[index].descr} task`);
+  if (newDescr === null) {
+    console.log("if");
+  } else if (newDescr === "") {
+    alert("Can't be empty");
+    console.log("if");
+  } else {
+    items[index].descr = newDescr;
+    renderList(items);
+    console.log("else");
+  }
 }
 
 function changeStatus(index, value) {
   if (confirm(`Change the task ${items[index].descr} to status ${value} ?`)) {
     items[index].status = value;
   }
+
   renderList(items);
 }
 
 function renderList(items) {
   if (items.length === 0) {
-    // $tableList.innerHTML = `<tr class="bg-gray-500" > NO TASKS ADD </tr>`;
     $noTask.classList.add("visible");
   } else {
     $noTask.classList.add("hidden");
@@ -111,6 +141,10 @@ function renderList(items) {
       currentItem.status,
       i
     );
+  }
+
+  if (items.length === 0) {
+    $noTask.classList.add("visible");
   }
 
   $tableList.innerHTML = result;
