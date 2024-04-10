@@ -74,22 +74,25 @@
                   >
                     <div class="drop-menu-items flex-col">
                       <div class="hover:bg-purple-600 px-15">
-                        <button class="" onclick="filterByStatus('All')">
+                        <button class="status-filtered" data-filter="All">
                           All
                         </button>
                       </div>
                       <div class="hover:bg-purple-600 px-15">
-                        <button class="" onclick="filterByStatus('Open')">
+                        <button class="status-filtered" data-filter="Open">
                           Open
                         </button>
                       </div>
                       <div class="hover:bg-purple-600 px-15">
-                        <button class="" onclick="filterByStatus('InProgress')">
+                        <button
+                          class="status-filtered"
+                          data-filter="InProgress"
+                        >
                           In Progress
                         </button>
                       </div>
                       <div class="hover:bg-purple-600 px-10">
-                        <button class="" onclick="filterByStatus('Done')">
+                        <button class="status-filtered" data-filter="Done">
                           Done
                         </button>
                       </div>
@@ -104,7 +107,10 @@
                     <tr class="text-white bg-gray-900">
                       <th class="inline w-1/5 hidden sm:table-cell">Date</th>
                       <th class="ml-5 w-2/5 pl-2">Task</th>
-                      <th class="w-1/5">Status: All</th>
+                      <th class="w-1/5">
+                        Status:
+                        <span class="status-selected"></span>
+                      </th>
                       <th class="w-1/5 max-sm:inline"></th>
                     </tr>
                   </thead>

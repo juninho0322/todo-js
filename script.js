@@ -4,6 +4,8 @@ const $buttonAdd = document.querySelector(".button-add");
 const $inputTask = document.querySelector(".js-input-task");
 const $tableList = document.querySelector(".js-tablelist");
 const $noTask = document.querySelector(".no-task");
+const $statusSelected = document.querySelector(".status-selected");
+const $statusFiltered = document.querySelectorAll(".status-filtered");
 
 let dropDownMenuVisible = false;
 
@@ -35,7 +37,7 @@ const items = !storagedItems
   ? []
   : JSON.parse(window.localStorage.getItem("Todo-List"));
 
-const statusValues = ["Open", "InProgress", "Done"];
+const statusValues = ["Open", "InProgress", "Done", "All"];
 
 const binImg = ` <img
 src="img/bin-garbage-trash-svgrepo-com.svg"
@@ -70,6 +72,7 @@ function addItem(descr, date = new Date()) {
     status: statusValues[0],
   };
 
+  $statusSelected.innerHTML = "All";
   items.push(newItem);
   renderList(items);
   console.log(items);
@@ -78,14 +81,25 @@ function addItem(descr, date = new Date()) {
 function filterByStatus(filter) {
   if (filter === "All") {
     toggleMenuFilter();
+    $statusSelected.innerHTML = "All";
     renderList(items);
     return;
+  } else {
+    $statusSelected.innerHTML = filter;
   }
+
   // rewrite the filter using forEach
   const filtered = items.filter((currentItem) => currentItem.status === filter);
   toggleMenuFilter();
   renderList(filtered);
 }
+
+$statusFiltered.forEach((button) => {
+  button.addEventListener("click", function () {
+    const filter = this.getAttribute("data-filter");
+    filterByStatus(filter);
+  });
+});
 
 function removeItem(index) {
   if (confirm(`Delete the task ${items[index].descr}?`)) {
@@ -183,7 +197,6 @@ function getTemplate(date, descr, status, index) {
          ${optionOpen}
          ${optionInProgress}
          ${optionDone}
-         
      </select></td>
          <td class="gap-1 max-w-10 text-center">
          <button class="buttonEdit" onclick="editItem(${index});">${editImg}</button>
